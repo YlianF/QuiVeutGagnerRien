@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://mxv4ahd08asw"]
+[gd_scene load_steps=7 format=3 uid="uid://mxv4ahd08asw"]
 
 [ext_resource type="Script" path="res://scripts/dialogue.cs" id="1_4f71e"]
 [ext_resource type="Script" path="res://scripts/Button.cs" id="2_6vu2t"]
@@ -16,17 +16,33 @@ corner_radius_bottom_right = 15
 corner_radius_bottom_left = 15
 shadow_size = 3
 
-[node name="dialogue" type="PanelContainer" node_paths=PackedStringArray("_icon", "_label")]
+[sub_resource type="FontVariation" id="FontVariation_8yvru"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e2eyv"]
+bg_color = Color(0.898039, 0.898039, 0.898039, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ym2vp"]
+content_margin_left = 5.0
+content_margin_top = 0.0
+content_margin_right = 5.0
+bg_color = Color(0.164706, 0.317647, 0.568627, 1)
+
+[node name="dialogue" type="PanelContainer" node_paths=PackedStringArray("_icon", "_label", "_input")]
 offset_right = 960.0
 offset_bottom = 140.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_qmpu2")
 script = ExtResource("1_4f71e")
-_icon = NodePath("HBoxContainer/TextureRect")
-_label = NodePath("HBoxContainer/Label")
+_icon = NodePath("texte/TextureRect")
+_label = NodePath("texte/Label")
+_input = NodePath("input/TextEdit")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="texte" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(940, 120)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -34,24 +50,48 @@ size_flags_vertical = 4
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="texte"]
 custom_minimum_size = Vector2(110, 110)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="texte"]
 custom_minimum_size = Vector2(700, 100)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "example text"
 autowrap_mode = 3
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="Button" type="Button" parent="texte"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 script = ExtResource("2_6vu2t")
 
-[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
+[node name="input" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TextEdit" type="TextEdit" parent="input"]
+custom_minimum_size = Vector2(600, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("FontVariation_8yvru")
+theme_override_styles/normal = SubResource("StyleBoxFlat_e2eyv")
+
+[node name="Button" type="Button" parent="input"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxFlat_ym2vp")
+text = "Valider"
+
+[connection signal="pressed" from="texte/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="input/Button" to="." method="_on_input_button_pressed"]
